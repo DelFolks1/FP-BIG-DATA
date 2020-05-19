@@ -61,6 +61,20 @@ Selanjutnya, ada node Spark SQL Query. Kita akan menghitung persentase hari / mi
 <img src="/Daily Minimum Temperature/img/sqlqueryconf.jpg"><br>
 Hasilnya adalah sebagai berikut :<br>
 <img src="/Daily Minimum Temperature/img/sqlqueryres.jpg"><br>
+Karena terdapat missing value, maka kita akan menggunakan node Spark Missing Value untuk mengisi kekosongan dengan nilai 0.<br>
+<img src="/Daily Minimum Temperature/img/miss1.jpg"><br>
+Berikut hasilnya setelah menggunakan node Spark Missing Value<br>
+<img src="/Daily Minimum Temperature/img/miss2.jpg"><br>
 <h2>Evaluation</h2>
+<img src="/Daily Minimum Temperature/img/evaluation.jpg"><br>
+Berikut adalah komponen dari metanode PCA, K-Means, Scatter Plot<br>
+<img src="/Daily Minimum Temperature/img/pcacomp.jpg"><br>
+Pada node Spark normalizer semua data kecuali ID, dinormalisasi menjadi range 0 - 1. Pada node setelah Denormalizer data dioutputkan menjadi 2 bentuk yaitu visualisasi dan data table yang diteruskan ke general workflow. Selanjutnya, data output tadi dimasukkan kembali ke Local Big Data Environment menggunakan 2 node, yaitu Spark to Hive untuk load menjadi Apache Hive dan Spark to Parquet untuk load menjadi HDFS.
+Hasilnya adalah sebagai berikut :<br>
+<img src="/Daily Minimum Temperature/img/evres1.jpg"><br>
+<img src="/Daily Minimum Temperature/img/evres2.jpg"><br>
 
 <h2>Deployment</h2>
+<img src="/Daily Minimum Temperature/img/deployment.jpg"><br>
+Pada tahap ini dilakukan perubahan data dari spark kembali mejadi hive serta menyimpan spark kedalam HDFS dalam bentuk parquet, hasil dari data tersebut adalah sebagai berikut<br>
+<img src="/Daily Minimum Temperature/img/deploy.jpg"><br>
