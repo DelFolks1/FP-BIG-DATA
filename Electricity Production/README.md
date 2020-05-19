@@ -40,7 +40,39 @@ Selanjutnya, akan ada pengklasifikasian dari kolom dayOfWeek.Jika Saturday dan S
 Berikut hasilnya:<br>
 <img src="/Electricity Production/img/classres.jpg"><br>
 Berikutnya akan masuk ke metanode Aggregation and time series. Berikut komponennya:<br>
-<img src="/Electricity Production/img/aggre1.jpg"><br>
+<img src="/Electricity Production/img/aggre1.jpg">
 <img src="/Electricity Production/img/aggre2.jpg"><br>
+Pertama, kita akan menginput data dan menyimpan di memory sementara menggunakan node Persist Spark Dataframe/RDD.<br>
+Lalu, dari dataset tersebut akan dihitung rata-rata penggunaannya per segment(tahun,hari,bulan, dan jam) menggunakan 3 node yaitu Spark GroupBy, Spark Pivot dan Spark Column Rename lalu semua akan digabungkan menggunakan Spark Joiner.
+Yang pertama, akan menghitung usage keseluruhan dan rata-rata usage per tahun.<br>
+<img src="/Electricity Production/img/byyear.jpg"><br>
+Lalu akan menghitung rata-rata usage per bulan<br>
+<img src="/Electricity Production/img/bymonth.jpg"><br>
+Lalu,akan menghitung rata-rata usage per minggu<br>
+<img src="/Electricity Production/img/byweek.jpg"><br>
+Lalu, akan menghitung rata-rata usage per harian
+<img src="/Electricity Production/img/byday.jpg"><br>
+Lalu, menghitung rata-rata usage per klasifikasi hari (WE atau BD)<br>
+<img src="/Electricity Production/img/dayclass.jpg"><br>
+Lalu, semuanya akan digabung dengan menggunakan Spark Joiner. Lalu, hasilnya akan diteruskan ke node selanjutnya dalam workflow. Berikut hasil tablenya :<br>
+<img src="/Electricity Production/img/rdd.jpg"><br>
+Selanjutnya, ada node Spark SQL Query. Kita akan menghitung persentase hari / minggu dan juga persentase segmen harian / hari. Berikut konfigurasinya :<br> 
+<img src="/Electricity Production/img/sparksql.jpg"><br>
+Hasilnya adalah sebagai berikut : <br>
+<img src="/Electricity Production/img/sparksqlres.jpg"><br>
+Karena terdapat missing value, maka kita akan menggunakan node Spark Missing Value untuk mengisi kekosongan dengan nilai 0. <br>
+<img src="/Electricity Production/img/miss.jpg"><br>
+Berikut hasilnya setelah menggunakan node Spark Missing Value <br>
+<img src="/Electricity Production/img/miss2.jpg"><br>
 <h2>Evaluation</h2>
+<img src="/Electricity Production/img/evaluation.jpg"><br>
+Berikut adalah komponen dari metanode diatas :
+<img src="/Electricity Production/img/pca.jpg"><br>
+Pada node Spark normalizer semua data kecuali ID, dinormalisasi menjadi range 0 - 1. Pada node setelah Denormalizer data dioutputkan menjadi 2 bentuk yaitu visualisasi dan data table yang diteruskan ke general workflow. Selanjutnya, data output tadi dimasukkan kembali ke Local Big Data Environment menggunakan 2 node, yaitu Spark to Hive untuk load menjadi Apache Hive dan Spark to Parquet untuk load menjadi HDFS.<br>
+Hasilnya adalah sebagai berikut : <br>
+<img src="/Electricity Production/img/pcaview.jpg"><br>
+<img src="/Electricity Production/img/pcaview2.jpg"><br>
 <h2>Deployment</h2>
+<img src="/Electricity Production/img/deployment.jpg"><br>
+Pada tahap ini dilakukan perubahan data dari spark kembali mejadi hive serta menyimpan spark kedalam HDFS dalam bentuk parquet, hasil dari data tersebut adalah sebagai berikut<br>
+<img src="/Electricity Production/img/parquet.jpg"><br>
